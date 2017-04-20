@@ -1,0 +1,4 @@
+Sitemap: http://perryjer1.github.io/sitemapindex.xml
+
+User-Agent: *
+Host: perryjer1.github.io
