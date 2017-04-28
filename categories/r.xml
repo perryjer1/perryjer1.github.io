@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Lamentations</title><link>http://perryjer1.github.io/</link><description>"Is it nothing to you, all ye that pass by? behold, and see if there be any sorrow like unto my sorrow"</description><atom:link type="application/rss+xml" href="http://perryjer1.github.io/rss.xml" rel="self"></atom:link><language>en</language><lastBuildDate>Fri, 28 Apr 2017 14:13:28 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Reading a UTF-8 csv file from Excel</title><link>http://perryjer1.github.io/posts/reading-a-utf-8-csv-file-from-excel/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div&gt;&lt;p&gt;I recently upgraded to Windows 10 at work and the latest and greatest
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Lamentations (R)</title><link>http://perryjer1.github.io/</link><description></description><atom:link type="application/rss+xml" href="http://perryjer1.github.io/categories/r.xml" rel="self"></atom:link><language>en</language><lastBuildDate>Fri, 28 Apr 2017 14:13:28 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Reading a UTF-8 csv file from Excel</title><link>http://perryjer1.github.io/posts/reading-a-utf-8-csv-file-from-excel/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div&gt;&lt;p&gt;I recently upgraded to Windows 10 at work and the latest and greatest
 version of Excel. I went to save a csv file to read into R and did not
 realize I selected the "UTF-8" option.&lt;/p&gt;
 &lt;p&gt;When I read it into R, I saw three strange extra characters in the
@@ -33,11 +33,4 @@ stands for byte order mark:&lt;/p&gt;
 have to put "utf-8-bom" instead of just "utf-8"? Why does Excel feel
 compelled to put a byte order mark in a UTF-8 file? If I were
 industrious and curious, I would find out, but I am lazy and
-uninterested so for now it will stay a mystery.&lt;/p&gt;&lt;/div&gt;</description><category>R</category><guid>http://perryjer1.github.io/posts/reading-a-utf-8-csv-file-from-excel/</guid><pubDate>Fri, 28 Apr 2017 13:28:59 GMT</pubDate></item><item><title>Consecutive Composite Numbers</title><link>http://perryjer1.github.io/posts/consecutive-composite-numbers/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div&gt;&lt;p&gt;I recently read that there exist strings of consecutive composite
-numbers of arbitrary length. That hurts my head, just a little. So
-even though there are infinitely many prime numbers, the gaps between
-them can be arbitrarily long.&lt;/p&gt;
-&lt;p&gt;To generate a sequence of &lt;code&gt;n&lt;/code&gt; numbers that are composite, take
-&lt;code&gt;(n+1)! + 2&lt;/code&gt;, &lt;code&gt;(n+1)! + 3&lt;/code&gt;, ..., up to &lt;code&gt;(n+1)! + n+1&lt;/code&gt;. That has &lt;code&gt;n&lt;/code&gt;
-numbers in it and each is composite: the first is divisible by 2, the
-second is divisible by 3, etc.&lt;/p&gt;&lt;/div&gt;</description><guid>http://perryjer1.github.io/posts/consecutive-composite-numbers/</guid><pubDate>Thu, 20 Apr 2017 17:57:07 GMT</pubDate></item></channel></rss>
+uninterested so for now it will stay a mystery.&lt;/p&gt;&lt;/div&gt;</description><category>R</category><guid>http://perryjer1.github.io/posts/reading-a-utf-8-csv-file-from-excel/</guid><pubDate>Fri, 28 Apr 2017 13:28:59 GMT</pubDate></item></channel></rss>
