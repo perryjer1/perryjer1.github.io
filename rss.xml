@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Lamentations</title><link>http://perryjer1.github.io/</link><description>"Is it nothing to you, all ye that pass by? behold, and see if there be any sorrow like unto my sorrow"</description><atom:link type="application/rss+xml" rel="self" href="http://perryjer1.github.io/rss.xml"></atom:link><language>en</language><lastBuildDate>Fri, 05 May 2017 19:08:47 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Risk Parity Weights in R</title><link>http://perryjer1.github.io/posts/risk-parity-weights-in-r/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div&gt;&lt;p&gt;Every now and then I need to calculate risk parity weights in R. I
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Lamentations</title><link>http://perryjer1.github.io/</link><description>"Is it nothing to you, all ye that pass by? behold, and see if there be any sorrow like unto my sorrow"</description><atom:link rel="self" type="application/rss+xml" href="http://perryjer1.github.io/rss.xml"></atom:link><language>en</language><lastBuildDate>Fri, 05 May 2017 19:28:13 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Risk Parity Weights in R</title><link>http://perryjer1.github.io/posts/risk-parity-weights-in-r/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div&gt;&lt;p&gt;Every now and then I need to calculate risk parity weights in R. I
 like to know how things are working under the hood and the solutions I
 found were a little opaque. Fortunately I found a nice article that
 gives a straightforward algorithm,
@@ -54,7 +54,7 @@ looked closer, I realized there was another argument, &lt;code&gt;fileEncoding&l
 
 
 &lt;p&gt;Oddly, this did not work either. At this point I started mumbling
-terrible &lt;/p&gt;
+incoherently.&lt;/p&gt;
 &lt;p&gt;Naturally, Hadley came to my rescue when I read his answer to &lt;a href="http://stackoverflow.com/questions/21624796/read-a-utf-8-text-file-with-bom"&gt;this
 StackOverflow question&lt;/a&gt;. 
 Seems that in R, the correct "encoding" is "utf-8-bom" where bom

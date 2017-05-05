@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Lamentations (R)</title><link>http://perryjer1.github.io/</link><description></description><atom:link type="application/rss+xml" href="http://perryjer1.github.io/categories/r.xml" rel="self"></atom:link><language>en</language><lastBuildDate>Fri, 28 Apr 2017 14:13:28 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Reading a UTF-8 csv file from Excel</title><link>http://perryjer1.github.io/posts/reading-a-utf-8-csv-file-from-excel/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div&gt;&lt;p&gt;I recently upgraded to Windows 10 at work and the latest and greatest
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Lamentations (R)</title><link>http://perryjer1.github.io/</link><description></description><atom:link rel="self" type="application/rss+xml" href="http://perryjer1.github.io/categories/r.xml"></atom:link><language>en</language><lastBuildDate>Fri, 05 May 2017 19:28:13 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Reading a UTF-8 csv file from Excel</title><link>http://perryjer1.github.io/posts/reading-a-utf-8-csv-file-from-excel/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div&gt;&lt;p&gt;I recently upgraded to Windows 10 at work and the latest and greatest
 version of Excel. I went to save a csv file to read into R and did not
 realize I selected the "UTF-8" option.&lt;/p&gt;
 &lt;p&gt;When I read it into R, I saw three strange extra characters in the
@@ -19,7 +19,7 @@ looked closer, I realized there was another argument, &lt;code&gt;fileEncoding&l
 
 
 &lt;p&gt;Oddly, this did not work either. At this point I started mumbling
-terrible &lt;/p&gt;
+incoherently.&lt;/p&gt;
 &lt;p&gt;Naturally, Hadley came to my rescue when I read his answer to &lt;a href="http://stackoverflow.com/questions/21624796/read-a-utf-8-text-file-with-bom"&gt;this
 StackOverflow question&lt;/a&gt;. 
 Seems that in R, the correct "encoding" is "utf-8-bom" where bom

@@ -33,7 +33,7 @@ X <- read.csv(filename, fileEncoding = "utf-8")
 ```
 
 Oddly, this did not work either. At this point I started mumbling
-terrible 
+incoherently.
 
 Naturally, Hadley came to my rescue when I read his answer to [this
 StackOverflow question](http://stackoverflow.com/questions/21624796/read-a-utf-8-text-file-with-bom). 
