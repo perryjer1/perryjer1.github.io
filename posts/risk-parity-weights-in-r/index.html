@@ -2,14 +2,22 @@
 <html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="description" content='"Is it nothing to you, all ye that pass by? behold, and see if there be any sorrow like unto my sorrow"'>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lamentations</title>
-<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<title>Risk Parity Weights in R | Lamentations</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta content="#5670d4" name="theme-color">
-<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
-<link rel="canonical" href="http://perryjer1.github.io/">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/risk-parity-weights-in-r/" type="text/html">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://perryjer1.github.io/posts/risk-parity-weights-in-r/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Jeremiah Perry">
+<link rel="prev" href="../reading-a-utf-8-csv-file-from-excel/" title="Reading a UTF-8 csv file from Excel" type="text/html">
+<meta property="og:site_name" content="Lamentations">
+<meta property="og:title" content="Risk Parity Weights in R">
+<meta property="og:url" content="http://perryjer1.github.io/posts/risk-parity-weights-in-r/">
+<meta property="og:description" content="Every now and then I need to calculate risk parity weights in R. I
+like to know how things are working under the hood and the solutions I
+found were a little opaque. Fortunately I found a nice article">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-05-05T13:50:55-05:00">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -34,18 +42,24 @@
         <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
             <ul class="nav navbar-nav">
 <li>
-<a href="archive.html">Archive</a>
+<a href="../../archive.html">Archive</a>
                 </li>
 <li>
-<a href="categories/">Tags</a>
+<a href="../../categories/">Tags</a>
                 </li>
 <li>
-<a href="rss.xml">RSS feed</a>
+<a href="../../rss.xml">RSS feed</a>
 
                 
             </li>
 </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.md" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
 </div>
 <!-- /.navbar-collapse -->
     </div>
@@ -56,17 +70,20 @@
         <div class="row">
             
             
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Risk Parity Weights in R</a></h1>
 
-    
-<div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/risk-parity-weights-in-r/" class="u-url">Risk Parity Weights in R</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">
-                Jeremiah Perry
+                    Jeremiah Perry
             </span></p>
-            <p class="dateline"><a href="posts/risk-parity-weights-in-r/" rel="bookmark"><time class="published dt-published" datetime="2017-05-05T13:50:55-05:00" title="2017-05-05 13:50">2017-05-05 13:50</time></a></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2017-05-05T13:50:55-05:00" itemprop="datePublished" title="2017-05-05 13:50">2017-05-05 13:50</time></a></p>
+            
+        <p class="sourceline"><a href="index.md" id="sourcelink">Source</a></p>
+
         </div>
-    </header><div class="e-content entry-content">
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
 <p>Every now and then I need to calculate risk parity weights in R. I
 like to know how things are working under the hood and the solutions I
@@ -106,81 +123,12 @@ Newton's method" section in the paper.</p>
 </pre>
 </div>
     </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/reading-a-utf-8-csv-file-from-excel/" class="u-url">Reading a UTF-8 csv file from Excel</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">
-                Jeremiah Perry
-            </span></p>
-            <p class="dateline"><a href="posts/reading-a-utf-8-csv-file-from-excel/" rel="bookmark"><time class="published dt-published" datetime="2017-04-28T08:28:59-05:00" title="2017-04-28 08:28">2017-04-28 08:28</time></a></p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div>
-<p>I recently upgraded to Windows 10 at work and the latest and greatest
-version of Excel. I went to save a csv file to read into R and did not
-realize I selected the "UTF-8" option.</p>
-<p>When I read it into R, I saw three strange extra characters in the
-first column name. No expert am I in unicode but I know enough to
-recognize this was probably a byte-order mark and just needed to be
-read differently.</p>
-<p>I looked at the arg list for <code>read.csv</code> and tried the following:</p>
-<pre class="code literal-block"><span></span>X <span class="o">&lt;-</span> read.csv<span class="p">(</span>filename<span class="p">,</span> encoding <span class="o">=</span> <span class="s">"utf-8"</span><span class="p">)</span>
-</pre>
-
-
-<p>This seemed very sensible to me since <code>encoding</code> is pretty standard
-for this sort of thing in e.g. python. It did not work and when I
-looked closer, I realized there was another argument, <code>fileEncoding</code>:</p>
-<pre class="code literal-block"><span></span>X <span class="o">&lt;-</span> read.csv<span class="p">(</span>filename<span class="p">,</span> fileEncoding <span class="o">=</span> <span class="s">"utf-8"</span><span class="p">)</span>
-</pre>
-
-
-<p>Oddly, this did not work either. At this point I started mumbling
-terrible </p>
-<p>Naturally, Hadley came to my rescue when I read his answer to <a href="http://stackoverflow.com/questions/21624796/read-a-utf-8-text-file-with-bom">this
-StackOverflow question</a>. 
-Seems that in R, the correct "encoding" is "utf-8-bom" where bom
-stands for byte order mark:</p>
-<pre class="code literal-block"><span></span>X <span class="o">&lt;-</span> read.csv<span class="p">(</span>filename<span class="p">,</span> fileEncoding <span class="o">=</span> <span class="s">"utf-8-bom"</span><span class="p">)</span>
-</pre>
-
-
-<p>At last. Why do I have to use <code>fileEncoding</code> instead of just
-<code>encoding</code>, and what does the <code>encoding</code> variable do anyway? Why do I
-have to put "utf-8-bom" instead of just "utf-8"? Why does Excel feel
-compelled to put a byte order mark in a UTF-8 file? If I were
-industrious and curious, I would find out, but I am lazy and
-uninterested so for now it will stay a mystery.</p>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../reading-a-utf-8-csv-file-from-excel/" rel="prev" title="Reading a UTF-8 csv file from Excel">Previous post</a>
+            </li>
+        </ul></nav></aside></article>
 </div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/consecutive-composite-numbers/" class="u-url">Consecutive Composite Numbers</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">
-                Jeremiah Perry
-            </span></p>
-            <p class="dateline"><a href="posts/consecutive-composite-numbers/" rel="bookmark"><time class="published dt-published" datetime="2017-04-20T12:57:07-05:00" title="2017-04-20 12:57">2017-04-20 12:57</time></a></p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div>
-<p>I recently read that there exist strings of consecutive composite
-numbers of arbitrary length. That hurts my head, just a little. So
-even though there are infinitely many prime numbers, the gaps between
-them can be arbitrarily long.</p>
-<p>To generate a sequence of <code>n</code> numbers that are composite, take
-<code>(n+1)! + 2</code>, <code>(n+1)! + 3</code>, ..., up to <code>(n+1)! + n+1</code>. That has <code>n</code>
-numbers in it and each is composite: the first is divisible by 2, the
-second is divisible by 3, etc.</p>
-</div>
-    </div>
-    </article>
-</div>
-
-
-
-
-
-
-
-        </div>
         <!--End of body content-->
 
         <footer id="footer">
@@ -191,7 +139,7 @@ second is divisible by 3, etc.</p>
 </div>
 
 
-            <script src="assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
     moment.locale("en");
     fancydates(0, "YYYY-MM-DD HH:mm");
     </script><!-- end fancy dates -->
