@@ -15,7 +15,7 @@
  </url>
  <url>
   <loc>http://perryjer1.github.io/archive.html</loc>
-  <lastmod>2017-05-05T19:04:00Z</lastmod>
+  <lastmod>2017-05-12T15:44:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/categories/</loc>
@@ -36,6 +36,10 @@
  <url>
   <loc>http://perryjer1.github.io/posts/consecutive-composite-numbers/</loc>
   <lastmod>2017-04-20T18:00:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://perryjer1.github.io/posts/newtons-method/</loc>
+  <lastmod>2017-05-12T14:55:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/posts/reading-a-utf-8-csv-file-from-excel/</loc>
