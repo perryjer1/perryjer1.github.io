@@ -63,4 +63,4 @@ defaults, we can just call e.g.
 dev.new()
 ```
 
-or even `dev.off()`.
+or even `dev.off()`. No need to capture and restore anything.
