@@ -23,7 +23,7 @@ MathJax.Hub.Config({
         styles: {'.MathJax_Display': {"margin": 0}}
     }
 });
-</script><!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/newtons-method/" type="text/html">
+</script><!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/r-tip-devoff/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -73,7 +73,66 @@ MathJax.Hub.Config({
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/newtons-method/" class="u-url">Newton's Method</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/r-tip-devoff/" class="u-url">R tip: dev.off()</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                Jeremiah Perry
+            </span></p>
+            <p class="dateline"><a href="posts/r-tip-devoff/" rel="bookmark"><time class="published dt-published" datetime="2017-05-19T08:13:44-05:00" title="2017-05-19 08:13">2017-05-19 08:13</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div>
+<p>When plotting in R and changing parameters via <code>par</code>, I have been very
+careful about saving and restoring them:</p>
+<pre class="code literal-block"><span></span>old <span class="o">&lt;-</span> par<span class="p">()</span>
+par<span class="p">(</span>mar <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">7.1</span><span class="p">,</span> <span class="m">4.1</span><span class="p">,</span> <span class="m">4.1</span><span class="p">,</span> <span class="m">2.1</span><span class="p">))</span>
+<span class="c1">## plot something, then restore:</span>
+par<span class="p">(</span>old<span class="p">)</span>
+</pre>
+
+
+<p>If you do that as is, you will get several warnings when you call
+<code>par(old)</code> about parameters that cannot be set. The way around that is
+to pass the <code>no.readonly</code> flag:</p>
+<pre class="code literal-block"><span></span>old <span class="o">&lt;-</span> par<span class="p">(</span>no.readonly <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+<span class="c1">## ...</span>
+par<span class="p">(</span>old<span class="p">)</span>
+</pre>
+
+
+<p>If you are like me, you always call it the first way until you get the
+warnings, then call it the second way and you get annoyed that you
+have to type All That Extra Stuff.</p>
+<p>One thing I learned this week is <code>par</code> returns a list of the old
+parameters that you are setting. So for example,</p>
+<pre class="code literal-block"><span></span>old <span class="o">&lt;-</span> par<span class="p">(</span>mar <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">7.1</span><span class="p">,</span> <span class="m">4.1</span><span class="p">,</span> <span class="m">4.1</span><span class="p">,</span> <span class="m">2.1</span><span class="p">))</span>
+</pre>
+
+
+<p><code>old</code> now only has one element named <code>mar</code> which has the old value in
+it. Calling</p>
+<pre class="code literal-block"><span></span>par<span class="p">(</span>old<span class="p">)</span>
+</pre>
+
+
+<p>now only resets that one value that was changed.</p>
+<p>I've always thought the <code>par</code> function changed parameters per session.
+The second thing I learned this week is the <code>par</code> function sets
+parameters per device. That's not exactly a secret; the first line of
+the Details section when you <code>?par</code> says</p>
+<blockquote>
+<p>Each device has its own set of graphical parameters.</p>
+</blockquote>
+<p>That means that to drop all parameter changes and go back to the
+defaults, we can just call e.g.</p>
+<pre class="code literal-block"><span></span>dev.new<span class="p">()</span>
+</pre>
+
+
+<p>or even <code>dev.off()</code>.</p>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/newtons-method/" class="u-url">Newton's Method</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">
                 Jeremiah Perry

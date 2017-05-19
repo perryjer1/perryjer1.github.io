@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Lamentations</title><link>http://perryjer1.github.io/</link><description>"Is it nothing to you, all ye that pass by? behold, and see if there be any sorrow like unto my sorrow"</description><atom:link type="application/rss+xml" href="http://perryjer1.github.io/rss.xml" rel="self"></atom:link><language>en</language><lastBuildDate>Fri, 12 May 2017 15:44:18 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Newton's Method</title><link>http://perryjer1.github.io/posts/newtons-method/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Lamentations</title><link>http://perryjer1.github.io/</link><description>"Is it nothing to you, all ye that pass by? behold, and see if there be any sorrow like unto my sorrow"</description><atom:link href="http://perryjer1.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 19 May 2017 13:35:24 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>R tip: dev.off()</title><link>http://perryjer1.github.io/posts/r-tip-devoff/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div&gt;&lt;p&gt;When plotting in R and changing parameters via &lt;code&gt;par&lt;/code&gt;, I have been very
+careful about saving and restoring them:&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;old &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; par&lt;span class="p"&gt;()&lt;/span&gt;
+par&lt;span class="p"&gt;(&lt;/span&gt;mar &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;7.1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;4.1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;4.1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;2.1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="c1"&gt;## plot something, then restore:&lt;/span&gt;
+par&lt;span class="p"&gt;(&lt;/span&gt;old&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;If you do that as is, you will get several warnings when you call
+&lt;code&gt;par(old)&lt;/code&gt; about parameters that cannot be set. The way around that is
+to pass the &lt;code&gt;no.readonly&lt;/code&gt; flag:&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;old &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; par&lt;span class="p"&gt;(&lt;/span&gt;no.readonly &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;## ...&lt;/span&gt;
+par&lt;span class="p"&gt;(&lt;/span&gt;old&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;If you are like me, you always call it the first way until you get the
+warnings, then call it the second way and you get annoyed that you
+have to type All That Extra Stuff.&lt;/p&gt;
+&lt;p&gt;One thing I learned this week is &lt;code&gt;par&lt;/code&gt; returns a list of the old
+parameters that you are setting. So for example,&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;old &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; par&lt;span class="p"&gt;(&lt;/span&gt;mar &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;7.1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;4.1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;4.1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;2.1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;&lt;code&gt;old&lt;/code&gt; now only has one element named &lt;code&gt;mar&lt;/code&gt; which has the old value in
+it. Calling&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;par&lt;span class="p"&gt;(&lt;/span&gt;old&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;now only resets that one value that was changed.&lt;/p&gt;
+&lt;p&gt;I've always thought the &lt;code&gt;par&lt;/code&gt; function changed parameters per session.
+The second thing I learned this week is the &lt;code&gt;par&lt;/code&gt; function sets
+parameters per device. That's not exactly a secret; the first line of
+the Details section when you &lt;code&gt;?par&lt;/code&gt; says&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Each device has its own set of graphical parameters.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;That means that to drop all parameter changes and go back to the
+defaults, we can just call e.g.&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;dev.new&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;or even &lt;code&gt;dev.off()&lt;/code&gt;.&lt;/p&gt;&lt;/div&gt;</description><guid>http://perryjer1.github.io/posts/r-tip-devoff/</guid><pubDate>Fri, 19 May 2017 13:13:44 GMT</pubDate></item><item><title>Newton's Method</title><link>http://perryjer1.github.io/posts/newtons-method/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
     &lt;div class="container" id="notebook-container"&gt;
 
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;
