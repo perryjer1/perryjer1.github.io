@@ -1,5 +1,776 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Lamentations</title><link>http://perryjer1.github.io/</link><description>"Is it nothing to you, all ye that pass by? behold, and see if there be any sorrow like unto my sorrow"</description><atom:link type="application/rss+xml" href="http://perryjer1.github.io/rss.xml" rel="self"></atom:link><language>en</language><lastBuildDate>Fri, 19 May 2017 13:37:27 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>R tip: dev.off()</title><link>http://perryjer1.github.io/posts/r-tip-devoff/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div&gt;&lt;p&gt;When plotting in R and changing parameters via &lt;code&gt;par&lt;/code&gt;, I have been very
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Lamentations</title><link>http://perryjer1.github.io/</link><description>"Is it nothing to you, all ye that pass by? behold, and see if there be any sorrow like unto my sorrow"</description><atom:link type="application/rss+xml" rel="self" href="http://perryjer1.github.io/rss.xml"></atom:link><language>en</language><lastBuildDate>Mon, 22 May 2017 18:08:29 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Unicode in Python</title><link>http://perryjer1.github.io/posts/unicode-in-python/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
+    &lt;div class="container" id="notebook-container"&gt;
+
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Unicode-in-Python"&gt;Unicode in Python&lt;a class="anchor-link" href="http://perryjer1.github.io/posts/unicode-in-python/#Unicode-in-Python"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;I don't have to deal with unicode issues too often but when I do, I forget this stuff every time because I don't have to deal with unicode issues too often. These are my notes to help jog that memory.&lt;/p&gt;
+&lt;p&gt;This &lt;a href="https://nedbatchelder.com/text/unipain.html"&gt;Ned Batchelder talk&lt;/a&gt; is very helpful.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="Code-points"&gt;Code points&lt;a class="anchor-link" href="http://perryjer1.github.io/posts/unicode-in-python/#Code-points"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Unicode maps "characters" to code points, or maybe it would be more accurate to say it maps code points to "characters". A code point is just a number. For example, 'A' is code point 65 and lower case Greek alpha is 945.&lt;/p&gt;
+&lt;p&gt;Code points are written U+dddd where &lt;em&gt;dddd&lt;/em&gt; is the hex representation of the code point. So for the two examples, 'A' would typically be written U+0041 and the lower case alpha as U+03B1.&lt;/p&gt;
+&lt;p&gt;The definition for "characters" is quite broad, for example&lt;/p&gt;
+&lt;p&gt;☂&lt;/p&gt;
+&lt;p&gt;is a "character", the code point U+2602 (9730 in decimal, which apparently you need when you put it in HTML and markdown).&lt;/p&gt;
+&lt;p&gt;Here it is in python. Enter unicode code points using the \u escape.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [1]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\u2602&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[1]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;'☂'&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;The &lt;a href="http://www.unicode.org"&gt;www.unicode.org&lt;/a&gt; website has all the code points meticulously catalogued. For example, all the Greek letters can be found on &lt;a href="http://www.unicode.org/charts/PDF/U0370.pdf"&gt;this chart&lt;/a&gt;.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [2]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\u03b1&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="se"&gt;\u03b2&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;  &lt;span class="c1"&gt;# alpha beta&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[2]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;'α β'&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="Encodings"&gt;Encodings&lt;a class="anchor-link" href="http://perryjer1.github.io/posts/unicode-in-python/#Encodings"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Code points need to be stored on disk somehow using bytes, and this is where encodings come in.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [3]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;"AB"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[3]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;b'AB'&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;The b at the beginning means it is a byte string. Since we are dealing with numbers in hex, let's see it that way:&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [4]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;"AB"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hex&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[4]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;'4142'&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;So what's the big deal? Different encodings produce different bytes for the same unicode, at least when the unicode contains something other than ASCII characters.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [5]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\u03b1&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[5]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;b'\xce\xb1'&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [6]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\u03b1&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"utf-8"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[6]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;b'\xce\xb1'&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [7]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\u03b1&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"utf-16"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[7]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;b'\xff\xfe\xb1\x03'&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;The default for encoding and decoding is utf-8. The &lt;code&gt;\xff\xfe&lt;/code&gt; byte sequence is a byte order mark. Look it up if you want.&lt;/p&gt;
+&lt;p&gt;Note that 'A' (code point U+0041) encodes to 0x41 (as a byte). Also note that lower case Greek alpha (code point U+03B1) encodes to 0xCEB1 &lt;em&gt;when using the utf-8 encoding&lt;/em&gt; and 0xB103 &lt;em&gt;when using the utf-16 encoding&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;This is the biggest source of confusion for me. The lower 7 bit ASCII code points from U+0000 up to U+007F in (almost?) all encodings are encoded as a byte that matches the code point value. 'A' (\U+0041) encodes to 0x41. But for anything above that, the encodings can and definitely do differ.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="Pain"&gt;Pain&lt;a class="anchor-link" href="http://perryjer1.github.io/posts/unicode-in-python/#Pain"&gt;¶&lt;/a&gt;&lt;/h3&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;If you have a byte string, you cannot infer the encoding, you must be told or you have to guess. If you guess wrong, you will often get garbage or even an error.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [8]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\u03b1&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"utf-8"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"utf-16"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# this should be alpha but we get something else&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[8]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;'뇎'&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [9]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\u03b1&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"utf-16"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"utf-8"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# utf-8 can't decode the utf-16 byte order mark&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt"&gt;&lt;/div&gt;
+&lt;div class="output_subarea output_text output_error"&gt;
+&lt;pre&gt;
+&lt;span class="ansi-red-fg"&gt;---------------------------------------------------------------------------&lt;/span&gt;
+&lt;span class="ansi-red-fg"&gt;UnicodeDecodeError&lt;/span&gt;                        Traceback (most recent call last)
+&lt;span class="ansi-green-fg"&gt;&amp;lt;ipython-input-9-e3ccc79b660f&amp;gt;&lt;/span&gt; in &lt;span class="ansi-cyan-fg"&gt;&amp;lt;module&amp;gt;&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;()&lt;/span&gt;
+&lt;span class="ansi-green-fg"&gt;----&amp;gt; 1&lt;/span&gt;&lt;span class="ansi-red-fg"&gt; &lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;"\u03b1"&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;.&lt;/span&gt;encode&lt;span class="ansi-blue-fg"&gt;(&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;"utf-16"&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;)&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;.&lt;/span&gt;decode&lt;span class="ansi-blue-fg"&gt;(&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;"utf-8"&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;)&lt;/span&gt;  &lt;span class="ansi-red-fg"&gt;# utf-8 can't decode the utf-16 byte order mark&lt;/span&gt;
+
+&lt;span class="ansi-red-fg"&gt;UnicodeDecodeError&lt;/span&gt;: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;You can't mix unicode and bytes.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [10]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;"Hello "&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="s2"&gt;"World"&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt"&gt;&lt;/div&gt;
+&lt;div class="output_subarea output_text output_error"&gt;
+&lt;pre&gt;
+&lt;span class="ansi-red-fg"&gt;---------------------------------------------------------------------------&lt;/span&gt;
+&lt;span class="ansi-red-fg"&gt;TypeError&lt;/span&gt;                                 Traceback (most recent call last)
+&lt;span class="ansi-green-fg"&gt;&amp;lt;ipython-input-10-dc30d6198c19&amp;gt;&lt;/span&gt; in &lt;span class="ansi-cyan-fg"&gt;&amp;lt;module&amp;gt;&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;()&lt;/span&gt;
+&lt;span class="ansi-green-fg"&gt;----&amp;gt; 1&lt;/span&gt;&lt;span class="ansi-red-fg"&gt; &lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;"Hello "&lt;/span&gt; &lt;span class="ansi-blue-fg"&gt;+&lt;/span&gt; &lt;span class="ansi-blue-fg"&gt;b"World"&lt;/span&gt;
+
+&lt;span class="ansi-red-fg"&gt;TypeError&lt;/span&gt;: Can't convert 'bytes' object to str implicitly&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="Python-types"&gt;Python types&lt;a class="anchor-link" href="http://perryjer1.github.io/posts/unicode-in-python/#Python-types"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Bytes are not unicode and unicode is not bytes. I'm sure that sentence has a grammatical error. Unicode in python (3) is type 'str' by the way.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [11]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"AB"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[11]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;str&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [12]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="s2"&gt;"AB"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[12]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;bytes&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;What is an encoding? It takes unicode and converts it to bytes.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [13]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;"AB"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[13]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;b'AB'&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;You can't encode bytes--they are already encoded.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [14]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="s2"&gt;"AB"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt"&gt;&lt;/div&gt;
+&lt;div class="output_subarea output_text output_error"&gt;
+&lt;pre&gt;
+&lt;span class="ansi-red-fg"&gt;---------------------------------------------------------------------------&lt;/span&gt;
+&lt;span class="ansi-red-fg"&gt;AttributeError&lt;/span&gt;                            Traceback (most recent call last)
+&lt;span class="ansi-green-fg"&gt;&amp;lt;ipython-input-14-7ccaee2cd1c1&amp;gt;&lt;/span&gt; in &lt;span class="ansi-cyan-fg"&gt;&amp;lt;module&amp;gt;&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;()&lt;/span&gt;
+&lt;span class="ansi-green-fg"&gt;----&amp;gt; 1&lt;/span&gt;&lt;span class="ansi-red-fg"&gt; &lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;b"AB"&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;.&lt;/span&gt;encode&lt;span class="ansi-blue-fg"&gt;(&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;)&lt;/span&gt;
+
+&lt;span class="ansi-red-fg"&gt;AttributeError&lt;/span&gt;: 'bytes' object has no attribute 'encode'&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;And you can't decode unicode.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [15]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;"AB"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt"&gt;&lt;/div&gt;
+&lt;div class="output_subarea output_text output_error"&gt;
+&lt;pre&gt;
+&lt;span class="ansi-red-fg"&gt;---------------------------------------------------------------------------&lt;/span&gt;
+&lt;span class="ansi-red-fg"&gt;AttributeError&lt;/span&gt;                            Traceback (most recent call last)
+&lt;span class="ansi-green-fg"&gt;&amp;lt;ipython-input-15-783efba8a48e&amp;gt;&lt;/span&gt; in &lt;span class="ansi-cyan-fg"&gt;&amp;lt;module&amp;gt;&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;()&lt;/span&gt;
+&lt;span class="ansi-green-fg"&gt;----&amp;gt; 1&lt;/span&gt;&lt;span class="ansi-red-fg"&gt; &lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;"AB"&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;.&lt;/span&gt;decode&lt;span class="ansi-blue-fg"&gt;(&lt;/span&gt;&lt;span class="ansi-blue-fg"&gt;)&lt;/span&gt;
+
+&lt;span class="ansi-red-fg"&gt;AttributeError&lt;/span&gt;: 'str' object has no attribute 'decode'&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Decoding takes bytes and produces unicode.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [16]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="s2"&gt;"AB"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[16]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;'AB'&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Misc"&gt;Misc&lt;a class="anchor-link" href="http://perryjer1.github.io/posts/unicode-in-python/#Misc"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;h3 id="Hex-and-such"&gt;Hex and such&lt;a class="anchor-link" href="http://perryjer1.github.io/posts/unicode-in-python/#Hex-and-such"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Convert bytes to hex:&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [17]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="s1"&gt;'A&lt;/span&gt;&lt;span class="se"&gt;\xbe&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hex&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[17]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;'41be'&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Convert hex to bytes:&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [18]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;bytes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fromhex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'41be'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;Out[18]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_execute_result"&gt;
+&lt;pre&gt;b'A\xbe'&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="Python-escape-sequences"&gt;Python escape sequences&lt;a class="anchor-link" href="http://perryjer1.github.io/posts/unicode-in-python/#Python-escape-sequences"&gt;¶&lt;/a&gt;&lt;/h3&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [19]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;prnt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;val&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;val&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"evals to"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;eval&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\"&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;val&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\"&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+
+&lt;span class="c1"&gt;# \xhh: enter a character using hex where 'hh' is the hex value&lt;/span&gt;
+&lt;span class="n"&gt;prnt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\\&lt;/span&gt;&lt;span class="s2"&gt;x41"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# 0x41 = 65 which is 'A' in ASCII&lt;/span&gt;
+&lt;span class="n"&gt;prnt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\\&lt;/span&gt;&lt;span class="s2"&gt;x61"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;#                    'a' in ASCII&lt;/span&gt;
+
+&lt;span class="c1"&gt;# \ooo: enter a character as octal&lt;/span&gt;
+&lt;span class="n"&gt;prnt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\\&lt;/span&gt;&lt;span class="s2"&gt;101"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# 0101 = 65 in octal&lt;/span&gt;
+
+&lt;span class="c1"&gt;# \uXXXX: 16-bit hex value unicode&lt;/span&gt;
+&lt;span class="n"&gt;prnt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\\&lt;/span&gt;&lt;span class="s2"&gt;u03b1"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# \N{NAME}: named unicode&lt;/span&gt;
+&lt;span class="n"&gt;prnt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\\&lt;/span&gt;&lt;span class="s2"&gt;N{GREEK SMALL LETTER ALPHA}"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt"&gt;&lt;/div&gt;
+&lt;div class="output_subarea output_stream output_stdout output_text"&gt;
+&lt;pre&gt;\x41 evals to A
+\x61 evals to a
+\101 evals to A
+\u03b1 evals to α
+\N{GREEK SMALL LETTER ALPHA} evals to α
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+</description><guid>http://perryjer1.github.io/posts/unicode-in-python/</guid><pubDate>Mon, 22 May 2017 17:46:43 GMT</pubDate></item><item><title>R tip: dev.off()</title><link>http://perryjer1.github.io/posts/r-tip-devoff/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div&gt;&lt;p&gt;When plotting in R and changing parameters via &lt;code&gt;par&lt;/code&gt;, I have been very
 careful about saving and restoring them:&lt;/p&gt;
 &lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;old &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; par&lt;span class="p"&gt;()&lt;/span&gt;
 par&lt;span class="p"&gt;(&lt;/span&gt;mar &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;7.1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;4.1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;4.1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;2.1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
