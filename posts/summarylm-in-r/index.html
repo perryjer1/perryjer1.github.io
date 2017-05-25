@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>summary.lm in R | Lamentations</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<meta content="#5670d4" name="theme-color">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://perryjer1.github.io/posts/summarylm-in-r/">
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    displayAlign: 'left', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script><!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Jeremiah Perry">
+<link rel="prev" href="../unicode-in-python/" title="Unicode in Python" type="text/html">
+<meta property="og:site_name" content="Lamentations">
+<meta property="og:title" content="summary.lm in R">
+<meta property="og:url" content="http://perryjer1.github.io/posts/summarylm-in-r/">
+<meta property="og:description" content="Matching summary(lm(...)) output¶These are my notes on matching the report that is printed when you call summary on a linear model in R.
+We will use the trees dataset. Girth is the tree diameter in in">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-05-24T17:01:21-05:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://perryjer1.github.io/">
+
+                <span id="blog-title">Lamentations</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../pages/about/">About</a>
+                </li>
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.ipynb" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">summary.lm in R</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                    Jeremiah Perry
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2017-05-24T17:01:21-05:00" itemprop="datePublished" title="2017-05-24 17:01">2017-05-24 17:01</time></a></p>
+            
+        <p class="sourceline"><a href="index.ipynb" id="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Matching-summary(lm(...))-output">Matching <code>summary(lm(...))</code> output<a class="anchor-link" href="#Matching-summary(lm(...))-output">¶</a>
+</h2>
+<p>These are my notes on matching the report that is printed when you call <code>summary</code> on a linear model in R.</p>
+<p>We will use the <code>trees</code> dataset. <code>Girth</code> is the tree diameter in inches, <code>Height</code> is the tree height in feet, <code>Volume</code> is the amount of timber in cubic feet.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Univariate-case">Univariate case<a class="anchor-link" href="#Univariate-case">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>data<span class="p">(</span>trees<span class="p">)</span>
+model1 <span class="o">&lt;-</span> lm<span class="p">(</span>Volume <span class="o">~</span> Girth<span class="p">,</span> data <span class="o">=</span> trees<span class="p">)</span>
+<span class="kp">summary</span><span class="p">(</span>model1<span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_text output_subarea ">
+<pre>
+Call:
+lm(formula = Volume ~ Girth, data = trees)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-8.065 -3.107  0.152  3.495  9.587 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -36.9435     3.3651  -10.98 7.62e-12 ***
+Girth         5.0659     0.2474   20.48  &lt; 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 4.252 on 29 degrees of freedom
+Multiple R-squared:  0.9353,	Adjusted R-squared:  0.9331 
+F-statistic: 419.4 on 1 and 29 DF,  p-value: &lt; 2.2e-16
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Residuals">Residuals<a class="anchor-link" href="#Residuals">¶</a>
+</h4>
+<p>The $\hat{y_i}$ are found in the <code>fitted.values</code> field. The residuals $y_i - \hat{y_i}$ are in the <code>residuals</code> field. Each can be extracted using the <code>fitted</code> and <code>residuals</code> functions. We can get the residual quantiles by using either one.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">round</span><span class="p">(</span>quantile<span class="p">(</span>trees<span class="o">$</span>Volume <span class="o">-</span> fitted<span class="p">(</span>model1<span class="p">)),</span> <span class="m">3</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<dl class="dl-horizontal">
+<dt>0%</dt>
+		<dd>-8.065</dd>
+	<dt>25%</dt>
+		<dd>-3.107</dd>
+	<dt>50%</dt>
+		<dd>0.152</dd>
+	<dt>75%</dt>
+		<dd>3.495</dd>
+	<dt>100%</dt>
+		<dd>9.587</dd>
+</dl>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">round</span><span class="p">(</span>quantile<span class="p">(</span>residuals<span class="p">(</span>model1<span class="p">)),</span> <span class="m">3</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<dl class="dl-horizontal">
+<dt>0%</dt>
+		<dd>-8.065</dd>
+	<dt>25%</dt>
+		<dd>-3.107</dd>
+	<dt>50%</dt>
+		<dd>0.152</dd>
+	<dt>75%</dt>
+		<dd>3.495</dd>
+	<dt>100%</dt>
+		<dd>9.587</dd>
+</dl>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Coefficients">Coefficients<a class="anchor-link" href="#Coefficients">¶</a>
+</h4>
+<p>Coefficients are found by $\beta = (X^T X)^{-1} X^T y$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>X <span class="o">&lt;-</span> model.matrix<span class="p">(</span><span class="o">~</span> Girth<span class="p">,</span> data <span class="o">=</span> trees<span class="p">)</span>
+beta <span class="o">&lt;-</span> <span class="kp">round</span><span class="p">(</span><span class="kp">solve</span><span class="p">(</span><span class="kp">t</span><span class="p">(</span>X<span class="p">)</span> <span class="o">%*%</span> X<span class="p">)</span> <span class="o">%*%</span> <span class="kp">t</span><span class="p">(</span>X<span class="p">)</span> <span class="o">%*%</span> trees<span class="o">$</span>Volume<span class="p">,</span> <span class="m">4</span><span class="p">)</span>
+<span class="kp">beta</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table><tbody>
+<tr>
+<th scope="row">(Intercept)</th>
+<td>-36.9435</td>
+</tr>
+<tr>
+<th scope="row">Girth</th>
+<td>  5.0659</td>
+</tr>
+</tbody></table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Standard errors can be found via $\sqrt{diag(X^T X)^{-1}} \sigma$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>se <span class="o">&lt;-</span> <span class="kp">round</span><span class="p">(</span><span class="kp">sqrt</span><span class="p">(</span><span class="kp">diag</span><span class="p">(</span><span class="kp">solve</span><span class="p">(</span><span class="kp">t</span><span class="p">(</span>X<span class="p">)</span> <span class="o">%*%</span> X<span class="p">)))</span> <span class="o">*</span> <span class="kp">sqrt</span><span class="p">(</span><span class="kp">sum</span><span class="p">(</span>model1<span class="o">$</span>res<span class="o">^</span><span class="m">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="kp">nrow</span><span class="p">(</span>trees<span class="p">)</span><span class="o">-</span><span class="kp">ncol</span><span class="p">(</span>X<span class="p">))),</span> <span class="m">4</span><span class="p">)</span>
+se
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<dl class="dl-horizontal">
+<dt>(Intercept)</dt>
+		<dd>3.3651</dd>
+	<dt>Girth</dt>
+		<dd>0.2474</dd>
+</dl>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>t</code> values are just the coefficients divided by the standard errors.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">round</span><span class="p">(</span>beta <span class="o">/</span> se<span class="p">,</span> <span class="m">2</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table><tbody>
+<tr>
+<th scope="row">(Intercept)</th>
+<td>-10.98</td>
+</tr>
+<tr>
+<th scope="row">Girth</th>
+<td> 20.48</td>
+</tr>
+</tbody></table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>p</code> values are found by looking up the probability distribution. The degrees of freedom is observation count minus number of parameters (where we include the intercept), and multiply by two to make the test two sided.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>pt<span class="p">(</span><span class="o">-</span><span class="kp">abs</span><span class="p">(</span>beta <span class="o">/</span> se<span class="p">),</span> <span class="kp">nrow</span><span class="p">(</span>trees<span class="p">)</span> <span class="o">-</span> <span class="kp">ncol</span><span class="p">(</span>X<span class="p">))</span><span class="o">*</span><span class="m">2</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table><tbody>
+<tr>
+<th scope="row">(Intercept)</th>
+<td>7.618853e-12</td>
+</tr>
+<tr>
+<th scope="row">Girth</th>
+<td>8.664230e-19</td>
+</tr>
+</tbody></table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Residual-standard-error">Residual standard error<a class="anchor-link" href="#Residual-standard-error">¶</a>
+</h4>
+<p>Residual standard error is the <code>sd</code> of the residuals adjusted for degrees of freedom. Degrees of freedom here is number of observations (31) minus number of coeficients (2).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">round</span><span class="p">(</span><span class="kp">sqrt</span><span class="p">(</span><span class="kp">sum</span><span class="p">(</span>model1<span class="o">$</span>res<span class="o">^</span><span class="m">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="kp">nrow</span><span class="p">(</span>trees<span class="p">)</span><span class="o">-</span><span class="kp">ncol</span><span class="p">(</span>X<span class="p">))),</span> <span class="m">3</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+4.252
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kt">c</span><span class="p">(</span>df <span class="o">=</span> <span class="kp">nrow</span><span class="p">(</span>trees<span class="p">)</span> <span class="o">-</span> <span class="m">2</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<strong>df:</strong> 29
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Compare to acutal <code>sd</code> of residuals.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>sd<span class="p">(</span>model1<span class="o">$</span>residuals<span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+4.18052045668671
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="R-squared">R-squared<a class="anchor-link" href="#R-squared">¶</a>
+</h4>
+<p>Total sum of squares (TSS) is $\sum_i {(y_i - \bar{y})^2}$, the total variation in the dataset adjusted for the mean. Residual sum of squares (RSS) is $\sum_i {(y_i - \hat{y_i})^2}$, the variation in the prediction. $R^2$, the coefficient of determination, is $1 - \frac{RSS}{TSS}$. This is the amount of explained variation. The explained sum of squares (ESS) is $\sum_i {(\hat{y_i} - \bar{y})^2}$. It is always the case that $TSS = ESS + RSS$.</p>
+<p>For multiple regression, the formulas need to be put in matrix terms, see <a href="https://en.wikipedia.org/wiki/Explained_sum_of_squares">Wikipedia</a>. It is still the case that $TSS = ESS + RSS$ if a certain condition holds which (from what I can tell) it always does when using ordinary least squares.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>TSS <span class="o">&lt;-</span> <span class="kp">sum</span><span class="p">((</span>trees<span class="o">$</span>Volume <span class="o">-</span> <span class="kp">mean</span><span class="p">(</span>trees<span class="o">$</span>Volume<span class="p">))</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
+RSS <span class="o">&lt;-</span> <span class="kp">sum</span><span class="p">(</span>model1<span class="o">$</span>residuals<span class="o">^</span><span class="m">2</span><span class="p">)</span>
+ESS <span class="o">&lt;-</span> <span class="kp">sum</span><span class="p">((</span>model1<span class="o">$</span>fitted.values <span class="o">-</span> <span class="kp">mean</span><span class="p">(</span>trees<span class="o">$</span>Volume<span class="p">))</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
+<span class="kt">c</span><span class="p">(</span>TSS <span class="o">=</span> TSS<span class="p">,</span> ESS <span class="o">=</span> ESS<span class="p">,</span> RSS <span class="o">=</span> RSS<span class="p">,</span> <span class="sb">`ESS+RSS`</span> <span class="o">=</span> ESS <span class="o">+</span> RSS<span class="p">,</span> r2 <span class="o">=</span> <span class="m">1</span> <span class="o">-</span> RSS <span class="o">/</span> TSS<span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<dl class="dl-horizontal">
+<dt>TSS</dt>
+		<dd>8106.08387096774</dd>
+	<dt>ESS</dt>
+		<dd>7581.78133230446</dd>
+	<dt>RSS</dt>
+		<dd>524.302538663282</dd>
+	<dt>ESS+RSS</dt>
+		<dd>8106.08387096774</dd>
+	<dt>r2</dt>
+		<dd>0.93531987245517</dd>
+</dl>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Adjusted $R^2$ adds a penalty for number of predictors, $Adj. R^2 = 1 - \frac{RSS/(n-p-1)}{TSS/(n-1)} = 1 - \left(\frac{RSS}{TSS}\right)\left(\frac{n-1}{n-p-1}\right)$. Here, $p$ is the number of predictors and 1 reflects the constant term so the divisors of the sums of squares are just the degrees of freedom for each. As $p$ increases, $n-p-1$ decreases and hence the penalty $\frac{n-1}{n-p-1}$ increases.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="m">1</span> <span class="o">-</span> <span class="p">(</span>RSS<span class="o">/</span>TSS<span class="p">)</span><span class="o">*</span><span class="p">((</span><span class="kp">nrow</span><span class="p">(</span>trees<span class="p">)</span><span class="m">-1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="kp">nrow</span><span class="p">(</span>trees<span class="p">)</span><span class="m">-1-1</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+0.933089523229486
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>An ANOVA table gives the same information as well as the F-statistic from the bottom of the <code>summary</code> output.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">round</span><span class="p">(</span>anova<span class="p">(</span>model1<span class="p">),</span> <span class="m">2</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr>
+<th></th>
+<th scope="col">Df</th>
+<th scope="col">Sum Sq</th>
+<th scope="col">Mean Sq</th>
+<th scope="col">F value</th>
+<th scope="col">Pr(&gt;F)</th>
+</tr></thead>
+<tbody>
+<tr>
+<th scope="row">Girth</th>
+<td> 1     </td>
+<td>7581.78</td>
+<td>7581.78</td>
+<td>419.36 </td>
+<td> 0     </td>
+</tr>
+<tr>
+<th scope="row">Residuals</th>
+<td>29     </td>
+<td> 524.30</td>
+<td>  18.08</td>
+<td>    NA </td>
+<td>NA     </td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="p">(</span>ESS <span class="o">/</span> <span class="m">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span>RSS <span class="o">/</span> <span class="m">29</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+419.360278509037
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Multi-variate-case">Multi-variate case<a class="anchor-link" href="#Multi-variate-case">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>model2 <span class="o">&lt;-</span> lm<span class="p">(</span>Volume <span class="o">~</span> Girth <span class="o">+</span> Height<span class="p">,</span> data <span class="o">=</span> trees<span class="p">)</span>
+<span class="kp">summary</span><span class="p">(</span>model2<span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_text output_subarea ">
+<pre>
+Call:
+lm(formula = Volume ~ Girth + Height, data = trees)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-6.4065 -2.6493 -0.2876  2.2003  8.4847 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -57.9877     8.6382  -6.713 2.75e-07 ***
+Girth         4.7082     0.2643  17.816  &lt; 2e-16 ***
+Height        0.3393     0.1302   2.607   0.0145 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 3.882 on 28 degrees of freedom
+Multiple R-squared:  0.948,	Adjusted R-squared:  0.9442 
+F-statistic:   255 on 2 and 28 DF,  p-value: &lt; 2.2e-16
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Residuals">Residuals<a class="anchor-link" href="#Residuals">¶</a>
+</h4>
+<p>Just like the univariate case.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">round</span><span class="p">(</span>quantile<span class="p">(</span>trees<span class="o">$</span>Volume <span class="o">-</span> fitted<span class="p">(</span>model2<span class="p">)),</span> <span class="m">4</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<dl class="dl-horizontal">
+<dt>0%</dt>
+		<dd>-6.4065</dd>
+	<dt>25%</dt>
+		<dd>-2.6493</dd>
+	<dt>50%</dt>
+		<dd>-0.2876</dd>
+	<dt>75%</dt>
+		<dd>2.2003</dd>
+	<dt>100%</dt>
+		<dd>8.4847</dd>
+</dl>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Coefficients">Coefficients<a class="anchor-link" href="#Coefficients">¶</a>
+</h4>
+<p>Coefficients are found by $\beta = (X^T X)^{-1} X^T y$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>X <span class="o">&lt;-</span> model.matrix<span class="p">(</span><span class="o">~</span> Girth <span class="o">+</span> Height<span class="p">,</span> data <span class="o">=</span> trees<span class="p">)</span>
+beta <span class="o">&lt;-</span> <span class="kp">round</span><span class="p">(</span><span class="kp">solve</span><span class="p">(</span><span class="kp">t</span><span class="p">(</span>X<span class="p">)</span> <span class="o">%*%</span> X<span class="p">)</span> <span class="o">%*%</span> <span class="kp">t</span><span class="p">(</span>X<span class="p">)</span> <span class="o">%*%</span> trees<span class="o">$</span>Volume<span class="p">,</span> <span class="m">4</span><span class="p">)</span>
+<span class="kp">beta</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table><tbody>
+<tr>
+<th scope="row">(Intercept)</th>
+<td>-57.9877</td>
+</tr>
+<tr>
+<th scope="row">Girth</th>
+<td>  4.7082</td>
+</tr>
+<tr>
+<th scope="row">Height</th>
+<td>  0.3393</td>
+</tr>
+</tbody></table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Standard errors can be found via $\sqrt{diag(X^T X)^{-1}} \sigma$ but make sure to take off another degree of freedom.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>se <span class="o">&lt;-</span> <span class="kp">round</span><span class="p">(</span><span class="kp">sqrt</span><span class="p">(</span><span class="kp">diag</span><span class="p">(</span><span class="kp">solve</span><span class="p">(</span><span class="kp">t</span><span class="p">(</span>X<span class="p">)</span> <span class="o">%*%</span> X<span class="p">)))</span> <span class="o">*</span> <span class="kp">sqrt</span><span class="p">(</span><span class="kp">sum</span><span class="p">(</span>model2<span class="o">$</span>res<span class="o">^</span><span class="m">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="kp">nrow</span><span class="p">(</span>trees<span class="p">)</span><span class="o">-</span><span class="kp">ncol</span><span class="p">(</span>X<span class="p">))),</span> <span class="m">4</span><span class="p">)</span>
+se
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<dl class="dl-horizontal">
+<dt>(Intercept)</dt>
+		<dd>8.6382</dd>
+	<dt>Girth</dt>
+		<dd>0.2643</dd>
+	<dt>Height</dt>
+		<dd>0.1302</dd>
+</dl>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>t</code> values are just the coefficients divided by the standard errors.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">round</span><span class="p">(</span>beta <span class="o">/</span> se<span class="p">,</span> <span class="kp">ncol</span><span class="p">(</span>X<span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table><tbody>
+<tr>
+<th scope="row">(Intercept)</th>
+<td>-6.713</td>
+</tr>
+<tr>
+<th scope="row">Girth</th>
+<td>17.814</td>
+</tr>
+<tr>
+<th scope="row">Height</th>
+<td> 2.606</td>
+</tr>
+</tbody></table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>p</code> values are found by looking up the probability distribution. The degrees of freedom is observation count minus number of parameters (where we include the intercept), and multiply by two to make the test two sided.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>pt<span class="p">(</span><span class="o">-</span><span class="kp">abs</span><span class="p">(</span>beta <span class="o">/</span> se<span class="p">),</span> <span class="kp">nrow</span><span class="p">(</span>trees<span class="p">)</span> <span class="o">-</span> <span class="kp">ncol</span><span class="p">(</span>X<span class="p">))</span><span class="o">*</span><span class="m">2</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table><tbody>
+<tr>
+<th scope="row">(Intercept)</th>
+<td>2.749328e-07</td>
+</tr>
+<tr>
+<th scope="row">Girth</th>
+<td>8.249983e-17</td>
+</tr>
+<tr>
+<th scope="row">Height</th>
+<td>1.451141e-02</td>
+</tr>
+</tbody></table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Residual-standard-error">Residual standard error<a class="anchor-link" href="#Residual-standard-error">¶</a>
+</h4>
+<p>Residual standard error is the <code>sd</code> of the residuals adjusted for degrees of freedom. Degrees of freedom here is number of observations (31) minus number of coeficients (3).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">round</span><span class="p">(</span><span class="kp">sqrt</span><span class="p">(</span><span class="kp">sum</span><span class="p">(</span>model2<span class="o">$</span>res<span class="o">^</span><span class="m">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="kp">nrow</span><span class="p">(</span>trees<span class="p">)</span><span class="o">-</span><span class="kp">ncol</span><span class="p">(</span>X<span class="p">))),</span> <span class="m">3</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+3.882
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kt">c</span><span class="p">(</span>df <span class="o">=</span> <span class="kp">nrow</span><span class="p">(</span>trees<span class="p">)</span> <span class="o">-</span> <span class="kp">ncol</span><span class="p">(</span>X<span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<strong>df:</strong> 28
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Compare to acutal <code>sd</code> of residuals.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>sd<span class="p">(</span>residuals<span class="p">(</span>model2<span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+3.75020603532858
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Session-info">Session info<a class="anchor-link" href="#Session-info">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">Sys.Date</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<time datetime="2017-05-25">2017-05-25</time>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>sessionInfo<span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_text output_subarea ">
+<pre>R version 3.3.3 (2017-03-06)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 16.04.2 LTS
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] R6_2.2.1            magrittr_1.5        IRdisplay_0.4.4    
+ [4] pbdZMQ_0.2-6        tools_3.3.3         crayon_1.3.2       
+ [7] uuid_0.1-2          stringi_1.1.5       IRkernel_0.8.6.9000
+[10] jsonlite_1.4        stringr_1.2.0       digest_0.6.12      
+[13] repr_0.12.0         evaluate_0.10      </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    </div>
+  </div>
+
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../unicode-in-python/" rel="prev" title="Unicode in Python">Previous post</a>
+            </li>
+        </ul></nav></aside><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    displayAlign: 'left', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2017         <a href="mailto:">Jeremiah Perry</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>
