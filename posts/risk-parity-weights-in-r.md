@@ -2,7 +2,7 @@
 .. title: Risk Parity Weights in R
 .. slug: risk-parity-weights-in-r
 .. date: 2017-05-05 13:50:55 UTC-05:00
-.. tags: 
+.. tags: R
 .. category: 
 .. link: 
 .. description: 
