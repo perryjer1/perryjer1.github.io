@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Lamentations (math)</title><link>http://perryjer1.github.io/</link><description></description><atom:link type="application/rss+xml" href="http://perryjer1.github.io/categories/math.xml" rel="self"></atom:link><language>en</language><lastBuildDate>Fri, 26 May 2017 20:23:33 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Newton's Method</title><link>http://perryjer1.github.io/posts/newtons-method/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
+    &lt;div class="container" id="notebook-container"&gt;
+
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Newton's-Method"&gt;Newton's Method&lt;a class="anchor-link" href="http://perryjer1.github.io/posts/newtons-method/#Newton's-Method"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;After posting the &lt;a href="http://perryjer1.github.io/posts/risk-parity-weights-in-r"&gt;R code for calculating risk parity weights&lt;/a&gt;, I thought I should review Newton's method.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="Univariate"&gt;Univariate&lt;a class="anchor-link" href="http://perryjer1.github.io/posts/newtons-method/#Univariate"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;First, from the definition of a derivative for a function, we have&lt;/p&gt;
+&lt;p&gt;$\frac{f(x+h) - f(x)}{h} = f'(x) + E(x,h)$&lt;/p&gt;
+&lt;p&gt;Here $E$ is the error introduced by the approximation&lt;/p&gt;
+&lt;p&gt;$f(x+h) \approx f(x) + h f'(x)$&lt;/p&gt;
+&lt;p&gt;and if the derivative $f'(x)$ exists, $E$ must obey $ \lim_{h \to 0} E(x,h) = 0$.&lt;/p&gt;
+&lt;p&gt;Rearranging the equation gives&lt;/p&gt;
+&lt;p&gt;$f(x+h) = f(x) + hf'(x) + hE(x,h)$&lt;/p&gt;
+&lt;p&gt;This is a form of the first order Taylor polynomial. Since $E \rightarrow 0$ as $h \rightarrow 0$, $hE(x,h)$ is "small".&lt;/p&gt;
+&lt;p&gt;The goal is to find a zero, i.e. some $a$ such that $f(a) = 0$. Using the above and the smallness of $hE(x,h)$, a first order approximation for the zero will be to find $h$ such that $f(x+h) = 0$. Using that above we get&lt;/p&gt;
+&lt;p&gt;$0 = f(x) + hf'(x)$&lt;/p&gt;
+&lt;p&gt;Solving for $h$ gives&lt;/p&gt;
+&lt;p&gt;$h = -\frac{f(x)}{f'(x)}$&lt;/p&gt;
+&lt;p&gt;so our guess for the root $a = x+h$ is&lt;/p&gt;
+&lt;p&gt;$x - \frac{f(x)}{f'(x)}$&lt;/p&gt;
+&lt;p&gt;Making successive approximations yields a sequence&lt;/p&gt;
+&lt;p&gt;$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="Multivariate"&gt;Multivariate&lt;a class="anchor-link" href="http://perryjer1.github.io/posts/newtons-method/#Multivariate"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;The first order Taylor polynomial has a multivariate generalization:&lt;/p&gt;
+&lt;p&gt;$f(x+h) = f(x) + T_x(h) + \|h\| E(x,h)$&lt;/p&gt;
+&lt;p&gt;where $T_x(h)$ is the total derivative which is represented by the Jacobian matrix, a matrix where row $i$ and column $j$ is&lt;/p&gt;
+&lt;p&gt;$\frac{\partial f_i}{\partial x_j}$,&lt;/p&gt;
+&lt;p&gt;the partial derivative of the function $i$ with respect to variable $j$. We are dealing in higher dimensions now so $x$ and $h$ are vectors and $f$ is a function $\mathbb{R}^n \rightarrow \mathbb{R}^m$. We will be inverting the Jacobian so we will in fact need $n = m$.&lt;/p&gt;
+&lt;p&gt;Our first order approximation becomes&lt;/p&gt;
+&lt;p&gt;$0 = f(x) + J(x) \cdot h$&lt;/p&gt;
+&lt;p&gt;Solving for $h$ gives&lt;/p&gt;
+&lt;p&gt;$h = -[J(x)]^{-1} f(x)$&lt;/p&gt;
+&lt;p&gt;and so the guess for the roots become&lt;/p&gt;
+&lt;p&gt;$x - [J(x)]^{-1} f(x)$&lt;/p&gt;
+&lt;p&gt;As a sequence, we can write&lt;/p&gt;
+&lt;p&gt;$x_{n+1} = x_n - [J(x_n)]^{-1} f(x_n)$&lt;/p&gt;
+&lt;p&gt;This is the form of the solver used in the paper.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+</description><category>math</category><guid>http://perryjer1.github.io/posts/newtons-method/</guid><pubDate>Fri, 12 May 2017 14:33:57 GMT</pubDate></item><item><title>Consecutive Composite Numbers</title><link>http://perryjer1.github.io/posts/consecutive-composite-numbers/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div&gt;&lt;p&gt;I recently read that there exist strings of consecutive composite
+numbers of arbitrary length. That hurts my head, just a little. So
+even though there are infinitely many prime numbers, the gaps between
+them can be arbitrarily long.&lt;/p&gt;
+&lt;p&gt;To generate a sequence of &lt;code&gt;n&lt;/code&gt; numbers that are composite, take
+&lt;code&gt;(n+1)! + 2&lt;/code&gt;, &lt;code&gt;(n+1)! + 3&lt;/code&gt;, ..., up to &lt;code&gt;(n+1)! + n+1&lt;/code&gt;. That has &lt;code&gt;n&lt;/code&gt;
+numbers in it and each is composite: the first is divisible by 2, the
+second is divisible by 3, etc.&lt;/p&gt;&lt;/div&gt;</description><category>math</category><guid>http://perryjer1.github.io/posts/consecutive-composite-numbers/</guid><pubDate>Thu, 20 Apr 2017 17:57:07 GMT</pubDate></item></channel></rss>

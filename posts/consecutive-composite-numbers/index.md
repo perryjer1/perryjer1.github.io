@@ -2,7 +2,7 @@
 .. title: Consecutive Composite Numbers
 .. slug: consecutive-composite-numbers
 .. date: 2017-04-20 12:57:07 UTC-05:00
-.. tags: 
+.. tags: math
 .. category: 
 .. link: 
 .. description: 

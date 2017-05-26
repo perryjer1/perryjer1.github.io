@@ -2,7 +2,7 @@
 .. title: R tip: dev.off()
 .. slug: r-tip-devoff
 .. date: 2017-05-19 08:13:44 UTC-05:00
-.. tags: 
+.. tags: R
 .. category: 
 .. link: 
 .. description: 

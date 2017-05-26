@@ -23,7 +23,7 @@ MathJax.Hub.Config({
         styles: {'.MathJax_Display': {"margin": 0}}
     }
 });
-</script><!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/summarylm-in-r/" type="text/html">
+</script><!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/reading-binary-files-with-python-and-pandas/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -76,7 +76,58 @@ MathJax.Hub.Config({
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/summarylm-in-r/" class="u-url">summary.lm in R</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/reading-binary-files-with-python-and-pandas/" class="u-url">Reading binary files with Python and Pandas</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                Jeremiah Perry
+            </span></p>
+            <p class="dateline"><a href="posts/reading-binary-files-with-python-and-pandas/" rel="bookmark"><time class="published dt-published" datetime="2017-05-26T15:10:36-05:00" title="2017-05-26 15:10">2017-05-26 15:10</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div>
+<p>We use a lot of binary files at work for market data. There are pros
+and cons that I don't want to argue about here but I'd like to focus
+on a nice feature in pandas for loading binary data. And actually, it
+is a numpy feature but I end up with a DataFrame so I think of it as
+pandas.</p>
+<p>When reading binary files in python before, I would do something like
+this:</p>
+<pre class="code literal-block"><span></span><span class="kn">import</span> <span class="nn">struct</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+    <span class="c1"># read e.g. open/high/low/close data</span>
+    <span class="n">op</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">infile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">8</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">hi</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">infile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">8</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">lo</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">infile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">8</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">cl</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">infile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">8</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+</pre>
+
+
+<p>That of course is grossly oversimplified but you get the point. And
+you put that in a loop and read all the values that are actually in
+the file and lo and behold it was the morning and the evening of the
+second day and it was slow.</p>
+<p>Turns out that pandas, er, numpy, has a very efficient way to read
+binary files that are laid out as sequences of records like ours. So
+now I do this:</p>
+<pre class="code literal-block"><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">([(</span><span class="s2">"open"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+               <span class="p">(</span><span class="s2">"high"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+               <span class="p">(</span><span class="s2">"low"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+               <span class="p">(</span><span class="s2">"close"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)])</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dt</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre>
+
+
+<p>And lo and behold it was the morning and the evening of the third day
+and it was fast. And good.</p>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/summarylm-in-r/" class="u-url">summary.lm in R</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">
                 Jeremiah Perry
