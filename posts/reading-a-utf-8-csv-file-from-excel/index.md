@@ -13,6 +13,8 @@ I recently upgraded to Windows 10 at work and the latest and greatest
 version of Excel. I went to save a csv file to read into R and did not
 realize I selected the "UTF-8" option.
 
+<!-- TEASER_END -->
+
 When I read it into R, I saw three strange extra characters in the
 first column name. No expert am I in unicode but I know enough to
 recognize this was probably a byte-order mark and just needed to be

@@ -109,6 +109,8 @@ like to know how things are working under the hood and the solutions I
 found were a little opaque. Fortunately I found a nice article that
 gives a straightforward algorithm,
 see <a href="http://www.iinews.com/site/pdfs/joi_fall_2012_ra1.pdf">here</a>.</p>
+<!-- TEASER_END -->
+
 <p>Here is my R code to implement it. This is from the "Algorithm 1:
 Newton's method" section in the paper.</p>
 <pre class="code literal-block"><span></span>riskparity <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>sigma<span class="p">,</span> tol <span class="o">=</span> <span class="m">1e-7</span><span class="p">,</span> maxeval <span class="o">=</span> <span class="m">1000</span><span class="p">)</span> <span class="p">{</span>

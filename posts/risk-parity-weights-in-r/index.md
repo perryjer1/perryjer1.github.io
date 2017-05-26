@@ -15,6 +15,8 @@ found were a little opaque. Fortunately I found a nice article that
 gives a straightforward algorithm,
 see [here](http://www.iinews.com/site/pdfs/joi_fall_2012_ra1.pdf).
 
+<!-- TEASER_END -->
+
 Here is my R code to implement it. This is from the "Algorithm 1:
 Newton's method" section in the paper.
 
