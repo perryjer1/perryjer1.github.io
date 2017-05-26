@@ -12,6 +12,8 @@
 When plotting in R and changing parameters via `par`, I have been very
 careful about saving and restoring them:
 
+<!-- TEASER_END -->
+
 ```R
 old <- par()
 par(mar = c(7.1, 4.1, 4.1, 2.1))

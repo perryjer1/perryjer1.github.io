@@ -15,6 +15,8 @@ on a nice feature in pandas for loading binary data. And actually, it
 is a numpy feature but I end up with a DataFrame so I think of it as
 pandas.
 
+<!-- TEASER_END -->
+
 When reading binary files in python before, I would do something like
 this:
 
