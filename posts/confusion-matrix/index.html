@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Confusion Matrix | Lamentations</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<meta content="#5670d4" name="theme-color">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://perryjer1.github.io/posts/confusion-matrix/">
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    displayAlign: 'left', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script><!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Jeremiah Perry">
+<link rel="prev" href="../reading-binary-files-with-python-and-pandas/" title="Reading binary files with Python and Pandas" type="text/html">
+<meta property="og:site_name" content="Lamentations">
+<meta property="og:title" content="Confusion Matrix">
+<meta property="og:url" content="http://perryjer1.github.io/posts/confusion-matrix/">
+<meta property="og:description" content="Confusion Matrix¶Here are my notes on the confusion matrix. That page has a lot of detail and I found it useful to work through a specific example.
+
+
+
+
+
+
+
+
+
+Simple knn model¶To create a confusion matr">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-06-02T14:56:43-05:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://perryjer1.github.io/">
+
+                <span id="blog-title">Lamentations</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../pages/about/">About</a>
+                </li>
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.ipynb" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Confusion Matrix</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                    Jeremiah Perry
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2017-06-02T14:56:43-05:00" itemprop="datePublished" title="2017-06-02 14:56">2017-06-02 14:56</time></a></p>
+            
+        <p class="sourceline"><a href="index.ipynb" id="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Confusion-Matrix">Confusion Matrix<a class="anchor-link" href="#Confusion-Matrix">¶</a>
+</h2>
+<p>Here are my notes on the <a href="https://en.wikipedia.org/wiki/Confusion_matrix">confusion matrix</a>. That page has a lot of detail and I found it useful to work through a specific example.</p>
+<!-- TEASER_END -->
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Simple-knn-model">Simple <code>knn</code> model<a class="anchor-link" href="#Simple-knn-model">¶</a>
+</h3>
+<p>To create a confusion matrix, we will use a <code>k</code>-nearest neighbors model to predict default on the <code>Caravan</code> data set from <code>ISLR</code>. See section 4.6 in the <a href="http://www-bcf.usc.edu/~gareth/ISL/">ISLR book</a> for details. We will be focused on just using the actual vs. predicted result.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kn">library</span><span class="p">(</span>ISLR<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span><span class="kp">class</span><span class="p">)</span>
+
+<span class="c1">## Load data and split into test and training</span>
+X <span class="o">&lt;-</span> <span class="kp">scale</span><span class="p">(</span>Caravan<span class="p">[,</span> <span class="m">-86</span><span class="p">])</span>
+test <span class="o">&lt;-</span> <span class="m">1</span><span class="o">:</span><span class="m">1000</span>
+trX <span class="o">&lt;-</span> X<span class="p">[</span><span class="o">-</span>test<span class="p">,]</span>  <span class="c1"># training data</span>
+teX <span class="o">&lt;-</span> X<span class="p">[</span>test<span class="p">,]</span>   <span class="c1"># test data</span>
+trY <span class="o">&lt;-</span> Caravan<span class="o">$</span>Purchase<span class="p">[</span><span class="o">-</span>test<span class="p">]</span>  <span class="c1"># training target</span>
+teY <span class="o">&lt;-</span> Caravan<span class="o">$</span>Purchase<span class="p">[</span>test<span class="p">]</span>   <span class="c1"># test target</span>
+
+<span class="c1">## knn uses some randomness e.g. to break ties, set seed for reproducibility</span>
+<span class="kp">set.seed</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For the target variable, 'Yes' means a default occured. For reference, the probability of being 'Yes' in the test data is:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">cat</span><span class="p">(</span><span class="kp">mean</span><span class="p">(</span>teY <span class="o">==</span> <span class="s">"Yes"</span><span class="p">)</span><span class="o">*</span><span class="m">100</span><span class="p">,</span> <span class="s">"%\n"</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>5.9 %
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Fit a model using all predictors and 3 nearest neighbors.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>model <span class="o">&lt;-</span> knn<span class="p">(</span>trX<span class="p">,</span> teX<span class="p">,</span> trY<span class="p">,</span> k <span class="o">=</span> <span class="m">3</span><span class="p">)</span>
+
+confusion_matrix <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>actual<span class="p">,</span> predicted<span class="p">)</span> <span class="p">{</span>
+  x <span class="o">&lt;-</span> addmargins<span class="p">(</span><span class="kp">table</span><span class="p">(</span>actual <span class="o">=</span> teY<span class="p">,</span> predicted <span class="o">=</span> model<span class="p">))</span>
+  <span class="c1"># jupyter notebooks drop some dimnames when printing because</span>
+  <span class="c1"># 'matrix' gets added to the classes after a call to addmargins,</span>
+  <span class="c1"># just reset the class to 'table' and it is fine</span>
+  <span class="kp">class</span><span class="p">(</span>x<span class="p">)</span> <span class="o">&lt;-</span> <span class="s">"table"</span>
+  x
+<span class="p">}</span>
+
+confusion_matrix<span class="p">(</span>actual <span class="o">=</span> teY<span class="p">,</span> predicted <span class="o">=</span> model<span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_text output_subarea ">
+<pre>      predicted
+actual   No  Yes  Sum
+   No   921   20  941
+   Yes   54    5   59
+   Sum  975   25 1000</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Confusion-matrix">Confusion matrix<a class="anchor-link" href="#Confusion-matrix">¶</a>
+</h3>
+<p>The last result is a confusion matrix. It shows actual vs. predicted. Here is a generalized version of a confusion matrix with variable names we will use below. <code>Neg</code> and <code>Pos</code> are somewhat arbitrary names but they come from terminology like "false positive".</p>
+<table>
+<thead><tr>
+<th>Confusion matrix</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr></thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td>Predicted</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Neg</td>
+<td>Pos</td>
+<td>Total</td>
+</tr>
+<tr>
+<td>Actual</td>
+<td>Neg</td>
+<td>TN</td>
+<td>FP</td>
+<td>N</td>
+</tr>
+<tr>
+<td></td>
+<td>Pos</td>
+<td>FN</td>
+<td>TP</td>
+<td>P</td>
+</tr>
+<tr>
+<td></td>
+<td>Total</td>
+<td>N*</td>
+<td>P*</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<p><strong>True negatives</strong> (TN) are predicted negative and are actually negative. <strong>True positives</strong> (TP) are predicted positive and are actually positive.</p>
+<p><strong>False negatives</strong> (FN) are predicted negative but are actually positive. <strong>False positives</strong> (FP) are predicted positive but actually negative.</p>
+<p>The <strong>accuracy</strong> is the fraction of samples classified correctly whereas the <strong>error</strong> is the fraction of samples misclassified. Hence, $accuracy = 1 - error$.</p>
+<p>The <strong>specificity</strong>, aka true negative rate, is the fraction of actual negative cases that were predicted to be negative.</p>
+<p>The <strong>sensitivity</strong>, aka true positive rate, recall, or power, is the fraction of actual positive cases that were predicted to be positive.</p>
+<p>A <strong>Type I error</strong> occurs when we predict positive but it is actually negative. The false positive rate is the fraction of actually negative cases that were predicted to be positive. This is also $1 - specificity$.</p>
+<p>A <strong>Type II error</strong> occurs when we predict negative but it is actually positive. The false negative rate is the fraction of actually positive cases that were predicted to be negative. This is also $1 - sensitivity$.</p>
+<p>The <strong>precision</strong> is the fraction of predicted true cases that are actually true.</p>
+<p>The <strong>false discovery rate (FDR)</strong> is the fraction of predicted true cases that are actually false.</p>
+<p>Here is a table that summarizes these names and a few aliases etc.</p>
+<table>
+<thead><tr>
+<th>Formula</th>
+<th>Alt</th>
+<th>Names</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr></thead>
+<tbody>
+<tr>
+<td>(TN+TP)/T</td>
+<td></td>
+<td>Accuracy</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>(FN+FP)/T</td>
+<td></td>
+<td>Error</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>TN/(TN+FP)</td>
+<td>TN / N</td>
+<td>True negative rate</td>
+<td>Specificity</td>
+<td></td>
+<td>1-Type I error</td>
+<td></td>
+</tr>
+<tr>
+<td>FP/(TN+FP)</td>
+<td>FP / N</td>
+<td>False positive rate</td>
+<td>1-Specificity</td>
+<td></td>
+<td>Type I error</td>
+<td></td>
+</tr>
+<tr>
+<td>FN/(FN+TP)</td>
+<td>FN / P</td>
+<td>False negative rate</td>
+<td>1-Sensitivity</td>
+<td></td>
+<td>Type II error</td>
+<td></td>
+</tr>
+<tr>
+<td>TP/(FN+TP)</td>
+<td>TP / P</td>
+<td>True positive rate</td>
+<td>Sensitivity</td>
+<td>Recall</td>
+<td>1-Type II error</td>
+<td>Power</td>
+</tr>
+<tr>
+<td>TN/(TN+FN)</td>
+<td>TN / N*</td>
+<td>Negative predictive value</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>FN/(TN+FN)</td>
+<td>FN / N*</td>
+<td>False omission rate</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>FP/(FP+TP)</td>
+<td>FP / P*</td>
+<td>False discovery rate</td>
+<td></td>
+<td>1 - Precision</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>TP/(FP+TP)</td>
+<td>TP / P*</td>
+<td>Positive predictive value</td>
+<td></td>
+<td>Precision</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Finally, here is an R function that summarizes our discussion.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>confusion_stats <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>actual<span class="p">,</span> predicted<span class="p">)</span> <span class="p">{</span>
+  tab <span class="o">&lt;-</span> <span class="kp">table</span><span class="p">(</span>actual <span class="o">=</span> actual<span class="p">,</span> predicted <span class="o">=</span> predicted<span class="p">)</span>
+    
+  TN <span class="o">&lt;-</span> tab<span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">]</span>  <span class="c1"># true negatives</span>
+  TP <span class="o">&lt;-</span> tab<span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">]</span>  <span class="c1"># true positives</span>
+  FN <span class="o">&lt;-</span> tab<span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">]</span>  <span class="c1"># false negatives</span>
+  FP <span class="o">&lt;-</span> tab<span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">]</span>  <span class="c1"># false positives</span>
+  N <span class="o">&lt;-</span> TN <span class="o">+</span> FP    <span class="c1"># actual negatives</span>
+  P <span class="o">&lt;-</span> FN <span class="o">+</span> TP    <span class="c1"># actual positives</span>
+  PN <span class="o">&lt;-</span> TN <span class="o">+</span> FN   <span class="c1"># predicted negatives, N*</span>
+  PP <span class="o">&lt;-</span> FP <span class="o">+</span> FP   <span class="c1"># predicted positives, P*</span>
+  <span class="bp">T</span> <span class="o">&lt;-</span> <span class="kp">sum</span><span class="p">(</span>tab<span class="p">)</span>
+  
+  x <span class="o">&lt;-</span> <span class="kt">data.frame</span><span class="p">(</span>
+      <span class="kp">rbind</span><span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">"Accuracy"</span><span class="p">,</span>    <span class="s">"(TN+TP)/T"</span><span class="p">,</span> <span class="kp">sprintf</span><span class="p">(</span><span class="s">"%s/%s"</span><span class="p">,</span> TN<span class="o">+</span>TP<span class="p">,</span> <span class="bp">T</span><span class="p">),</span> <span class="kp">sprintf</span><span class="p">(</span><span class="s">"%.2f%%"</span><span class="p">,</span> <span class="m">100</span><span class="o">*</span><span class="p">(</span>TN<span class="o">+</span>TP<span class="p">)</span><span class="o">/</span><span class="bp">T</span><span class="p">)),</span>
+            <span class="kt">c</span><span class="p">(</span><span class="s">"Error"</span><span class="p">,</span>       <span class="s">"(FN+FP)/T"</span><span class="p">,</span> <span class="kp">sprintf</span><span class="p">(</span><span class="s">"%s/%s"</span><span class="p">,</span> FN<span class="o">+</span>FP<span class="p">,</span> <span class="bp">T</span><span class="p">),</span> <span class="kp">sprintf</span><span class="p">(</span><span class="s">"%.2f%%"</span><span class="p">,</span> <span class="m">100</span><span class="o">*</span><span class="p">(</span>FN<span class="o">+</span>FP<span class="p">)</span><span class="o">/</span><span class="bp">T</span><span class="p">)),</span>
+            <span class="kt">c</span><span class="p">(</span><span class="s">"Specificity"</span><span class="p">,</span> <span class="s">"TN / N"</span><span class="p">,</span>    <span class="kp">sprintf</span><span class="p">(</span><span class="s">"%s/%s"</span><span class="p">,</span> TN<span class="p">,</span> N<span class="p">),</span>    <span class="kp">sprintf</span><span class="p">(</span><span class="s">"%.2f%%"</span><span class="p">,</span> <span class="m">100</span><span class="o">*</span>TN<span class="o">/</span>N<span class="p">)),</span>
+            <span class="kt">c</span><span class="p">(</span><span class="s">"Sensitivity"</span><span class="p">,</span> <span class="s">"TP / P"</span><span class="p">,</span>    <span class="kp">sprintf</span><span class="p">(</span><span class="s">"%s/%s"</span><span class="p">,</span> TP<span class="p">,</span> P<span class="p">),</span>    <span class="kp">sprintf</span><span class="p">(</span><span class="s">"%.2f%%"</span><span class="p">,</span> <span class="m">100</span><span class="o">*</span>TP<span class="o">/</span>P<span class="p">)),</span>
+            <span class="kt">c</span><span class="p">(</span><span class="s">"False Disc."</span><span class="p">,</span> <span class="s">"FP / P*"</span><span class="p">,</span>   <span class="kp">sprintf</span><span class="p">(</span><span class="s">"%s/%s"</span><span class="p">,</span> FP<span class="p">,</span> PP<span class="p">),</span>   <span class="kp">sprintf</span><span class="p">(</span><span class="s">"%.2f%%"</span><span class="p">,</span> <span class="m">100</span><span class="o">*</span>FP<span class="o">/</span>PP<span class="p">)),</span>
+            <span class="kt">c</span><span class="p">(</span><span class="s">"Precision"</span><span class="p">,</span>   <span class="s">"TP / P*"</span><span class="p">,</span>   <span class="kp">sprintf</span><span class="p">(</span><span class="s">"%s/%s"</span><span class="p">,</span> TP<span class="p">,</span> PP<span class="p">),</span>   <span class="kp">sprintf</span><span class="p">(</span><span class="s">"%.2f%%"</span><span class="p">,</span> <span class="m">100</span><span class="o">*</span>TP<span class="o">/</span>PP<span class="p">))))</span>
+  <span class="kp">colnames</span><span class="p">(</span>x<span class="p">)</span> <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="s">"Name"</span><span class="p">,</span> <span class="s">"Formula"</span><span class="p">,</span> <span class="s">"Result"</span><span class="p">,</span> <span class="s">"Numeric"</span><span class="p">)</span>
+  x
+<span class="p">}</span>
+
+<span class="c1"># repeat the confusion matrix here for reference</span>
+confusion_matrix<span class="p">(</span>actual <span class="o">=</span> teY<span class="p">,</span> predicted <span class="o">=</span> model<span class="p">)</span>
+confusion_stats<span class="p">(</span>actual <span class="o">=</span> teY<span class="p">,</span> predicted <span class="o">=</span> model<span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_text output_subarea ">
+<pre>      predicted
+actual   No  Yes  Sum
+   No   921   20  941
+   Yes   54    5   59
+   Sum  975   25 1000</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr>
+<th scope="col">Name</th>
+<th scope="col">Formula</th>
+<th scope="col">Result</th>
+<th scope="col">Numeric</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Accuracy   </td>
+<td>(TN+TP)/T  </td>
+<td>926/1000   </td>
+<td>92.60%     </td>
+</tr>
+<tr>
+<td>Error      </td>
+<td>(FN+FP)/T  </td>
+<td>74/1000    </td>
+<td>7.40%      </td>
+</tr>
+<tr>
+<td>Specificity</td>
+<td>TN / N     </td>
+<td>921/941    </td>
+<td>97.87%     </td>
+</tr>
+<tr>
+<td>Sensitivity</td>
+<td>TP / P     </td>
+<td>5/59       </td>
+<td>8.47%      </td>
+</tr>
+<tr>
+<td>False Disc.</td>
+<td>FP / P*    </td>
+<td>20/40      </td>
+<td>50.00%     </td>
+</tr>
+<tr>
+<td>Precision  </td>
+<td>TP / P*    </td>
+<td>5/40       </td>
+<td>12.50%     </td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    </div>
+  </div>
+
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../reading-binary-files-with-python-and-pandas/" rel="prev" title="Reading binary files with Python and Pandas">Previous post</a>
+            </li>
+        </ul></nav></aside><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    displayAlign: 'left', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2017         <a href="mailto:">Jeremiah Perry</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>
