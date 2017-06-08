@@ -39,4 +39,4 @@ and `n` and `m` should be coprime for best results (getting primitive
 triples). Read up on it [here](https://en.wikipedia.org/wiki/Pythagorean_Triple).
 
 In retrospect, it makes sense that Euclid would know this. He knew a
-think or two about geometry.
+thing or two about geometry.
