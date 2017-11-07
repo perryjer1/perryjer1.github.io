@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Lamentations</title><link>http://perryjer1.github.io/</link><description>"Is it nothing to you, all ye that pass by? behold, and see if there be any sorrow like unto my sorrow"</description><atom:link href="http://perryjer1.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 20 Jun 2017 20:51:57 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>C++ sorting</title><link>http://perryjer1.github.io/posts/c%2B%2B-sorting/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div&gt;&lt;p&gt;I was running some C++ code that was sorting a vector based on a
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Lamentations</title><link>http://perryjer1.github.io/</link><description>"Is it nothing to you, all ye that pass by? behold, and see if there be any sorrow like unto my sorrow"</description><atom:link href="http://perryjer1.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 07 Nov 2017 17:58:09 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Deep Learning: Building Intuition, Part I</title><link>http://perryjer1.github.io/posts/deep-learning-building-intuition-part-i/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
+    &lt;div class="container" id="notebook-container"&gt;
+
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Deep-Learning:-Building-Intuition,-Part-I"&gt;Deep Learning: Building Intuition, Part I&lt;a class="anchor-link" href="http://perryjer1.github.io/posts/deep-learning-building-intuition-part-i/#Deep-Learning:-Building-Intuition,-Part-I"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;In this post, I use a neural network with a single hidden layer to approximate a simple nonlinear function, and I will investigate how changing the number of neurons helps in learning the function representation.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://perryjer1.github.io/posts/deep-learning-building-intuition-part-i/"&gt;Read more…&lt;/a&gt; (8 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><guid>http://perryjer1.github.io/posts/deep-learning-building-intuition-part-i/</guid><pubDate>Mon, 06 Nov 2017 21:53:07 GMT</pubDate></item><item><title>C++ sorting</title><link>http://perryjer1.github.io/posts/c%2B%2B-sorting/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div&gt;&lt;p&gt;I was running some C++ code that was sorting a vector based on a
 custom function, something like this:&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://perryjer1.github.io/posts/c%2B%2B-sorting/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>c++</category><guid>http://perryjer1.github.io/posts/c%2B%2B-sorting/</guid><pubDate>Tue, 20 Jun 2017 20:38:38 GMT</pubDate></item><item><title>Pythagorean triples</title><link>http://perryjer1.github.io/posts/pythagorean-triples/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div&gt;&lt;p&gt;I was looking for a way to generate Pythagorean triples and figured
 there had to be some sort of formula or algorithm. And of course there
@@ -9,8 +17,7 @@ that lived over two thousand years ago.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://perryjer1.github.io/posts/pythagorean-triples/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>mathjax</category><guid>http://perryjer1.github.io/posts/pythagorean-triples/</guid><pubDate>Thu, 08 Jun 2017 14:54:40 GMT</pubDate></item><item><title>Confusion Matrix</title><link>http://perryjer1.github.io/posts/confusion-matrix/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
     &lt;div class="container" id="notebook-container"&gt;
 
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;
-&lt;div class="prompt input_prompt"&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
@@ -23,8 +30,7 @@ pandas.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://perryjer1.github.io/posts/reading-binary-files-with-python-and-pandas/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>python</category><guid>http://perryjer1.github.io/posts/reading-binary-files-with-python-and-pandas/</guid><pubDate>Fri, 26 May 2017 20:10:36 GMT</pubDate></item><item><title>summary.lm in R</title><link>http://perryjer1.github.io/posts/summarylm-in-r/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
     &lt;div class="container" id="notebook-container"&gt;
 
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;
-&lt;div class="prompt input_prompt"&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
@@ -32,8 +38,7 @@ pandas.&lt;/p&gt;
 &lt;p&gt;We will use the &lt;code&gt;trees&lt;/code&gt; dataset. &lt;code&gt;Girth&lt;/code&gt; is the tree diameter in inches, &lt;code&gt;Height&lt;/code&gt; is the tree height in feet, &lt;code&gt;Volume&lt;/code&gt; is the amount of timber in cubic feet. &lt;/p&gt;&lt;p&gt;&lt;a href="http://perryjer1.github.io/posts/summarylm-in-r/"&gt;Read more…&lt;/a&gt; (4 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><guid>http://perryjer1.github.io/posts/summarylm-in-r/</guid><pubDate>Wed, 24 May 2017 22:01:21 GMT</pubDate></item><item><title>Unicode in Python</title><link>http://perryjer1.github.io/posts/unicode-in-python/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
     &lt;div class="container" id="notebook-container"&gt;
 
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;
-&lt;div class="prompt input_prompt"&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
@@ -43,8 +48,7 @@ careful about saving and restoring them:&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://perryjer1.github.io/posts/r-tip-devoff/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>R</category><guid>http://perryjer1.github.io/posts/r-tip-devoff/</guid><pubDate>Fri, 19 May 2017 13:13:44 GMT</pubDate></item><item><title>Newton's Method</title><link>http://perryjer1.github.io/posts/newtons-method/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
     &lt;div class="container" id="notebook-container"&gt;
 
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;
-&lt;div class="prompt input_prompt"&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
@@ -53,7 +57,4 @@ like to know how things are working under the hood and the solutions I
 found were a little opaque. Fortunately I found a nice article that
 gives a straightforward algorithm,
 see &lt;a href="http://www.iinews.com/site/pdfs/joi_fall_2012_ra1.pdf"&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://perryjer1.github.io/posts/risk-parity-weights-in-r/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>R</category><guid>http://perryjer1.github.io/posts/risk-parity-weights-in-r/</guid><pubDate>Fri, 05 May 2017 18:50:55 GMT</pubDate></item><item><title>Reading a UTF-8 csv file from Excel</title><link>http://perryjer1.github.io/posts/reading-a-utf-8-csv-file-from-excel/</link><dc:creator>Jeremiah Perry</dc:creator><description>&lt;div&gt;&lt;p&gt;I recently upgraded to Windows 10 at work and the latest and greatest
-version of Excel. I went to save a csv file to read into R and did not
-realize I selected the "UTF-8" option.&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://perryjer1.github.io/posts/reading-a-utf-8-csv-file-from-excel/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>R</category><guid>http://perryjer1.github.io/posts/reading-a-utf-8-csv-file-from-excel/</guid><pubDate>Fri, 28 Apr 2017 13:28:59 GMT</pubDate></item></channel></rss>
+&lt;p&gt;&lt;a href="http://perryjer1.github.io/posts/risk-parity-weights-in-r/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>R</category><guid>http://perryjer1.github.io/posts/risk-parity-weights-in-r/</guid><pubDate>Fri, 05 May 2017 18:50:55 GMT</pubDate></item></channel></rss>

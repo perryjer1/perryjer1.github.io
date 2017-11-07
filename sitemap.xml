@@ -7,98 +7,94 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>http://perryjer1.github.io/</loc>
-  <lastmod>2017-06-20T20:48:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/2017/</loc>
-  <lastmod>2017-04-20T18:00:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/archive.html</loc>
-  <lastmod>2017-06-20T20:48:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/categories/</loc>
-  <lastmod>2017-06-20T20:48:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/categories/c%2B%2B/</loc>
-  <lastmod>2017-06-20T20:48:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/categories/math/</loc>
-  <lastmod>2017-05-26T20:23:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/categories/mathjax/</loc>
-  <lastmod>2017-06-08T15:31:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/categories/python/</loc>
-  <lastmod>2017-05-26T20:23:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/categories/r/</loc>
-  <lastmod>2017-04-28T14:13:00Z</lastmod>
- </url>
- <url>
-  <loc>http://perryjer1.github.io/galleries/</loc>
-  <lastmod>2017-04-19T18:57:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/index-1.html</loc>
-  <lastmod>2017-06-20T20:48:00Z</lastmod>
- </url>
- <url>
-  <loc>http://perryjer1.github.io/listings/</loc>
-  <lastmod>2017-04-19T18:57:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/pages/about/</loc>
-  <lastmod>2017-05-25T14:02:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/posts/c%2B%2B-sorting/</loc>
-  <lastmod>2017-06-20T20:48:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/posts/confusion-matrix/</loc>
-  <lastmod>2017-06-02T20:11:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/posts/consecutive-composite-numbers/</loc>
-  <lastmod>2017-04-20T18:00:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://perryjer1.github.io/posts/deep-learning-building-intuition-part-i/</loc>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/posts/newtons-method/</loc>
-  <lastmod>2017-05-12T14:55:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/posts/pythagorean-triples/</loc>
-  <lastmod>2017-06-08T15:04:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/posts/r-tip-devoff/</loc>
-  <lastmod>2017-05-19T13:34:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/posts/reading-a-utf-8-csv-file-from-excel/</loc>
-  <lastmod>2017-04-28T14:13:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/posts/reading-binary-files-with-python-and-pandas/</loc>
-  <lastmod>2017-05-26T20:23:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/posts/risk-parity-weights-in-r/</loc>
-  <lastmod>2017-05-05T19:04:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/posts/summarylm-in-r/</loc>
-  <lastmod>2017-05-24T22:04:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
  <url>
   <loc>http://perryjer1.github.io/posts/unicode-in-python/</loc>
-  <lastmod>2017-05-22T18:08:00Z</lastmod>
+  <lastmod>2017-11-07T17:58:00Z</lastmod>
  </url>
 </urlset>
