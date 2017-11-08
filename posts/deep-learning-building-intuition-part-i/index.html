@@ -13,6 +13,7 @@
 <link rel="canonical" href="http://perryjer1.github.io/posts/deep-learning-building-intuition-part-i/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Jeremiah Perry">
 <link rel="prev" href="../c%2B%2B-sorting/" title="C++ sorting" type="text/html">
+<link rel="next" href="../deep-learning-building-intuition-part-ii/" title="Deep Learning: Building Intuition, Part II" type="text/html">
 <meta property="og:site_name" content="Lamentations">
 <meta property="og:title" content="Deep Learning: Building Intuition, Part I">
 <meta property="og:url" content="http://perryjer1.github.io/posts/deep-learning-building-intuition-part-i/">
@@ -292,8 +293,8 @@ $$ y = 1 \sigma(1 x + (-0.5)) + 0 = \max(0, x-0.5)$$<p>as promised.</p>
 def create_model(num_neurons, epochs=1):
     """Create a simple network with one hidden layer
     
-    input_dim: Number of neurons in the hidden layer.
-    epochs:    Number of epochs for training.
+    num_neurons: Number of neurons in the hidden layer.
+    epochs:      Number of epochs for training.
     """
     
     model = Sequential()
@@ -798,6 +799,9 @@ Wall time: 13.3 s
     <aside class="postpromonav"><nav><ul class="pager hidden-print">
 <li class="previous">
                 <a href="../c%2B%2B-sorting/" rel="prev" title="C++ sorting">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../deep-learning-building-intuition-part-ii/" rel="next" title="Deep Learning: Building Intuition, Part II">Next post</a>
             </li>
         </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha256-SDRP1VVYu+tgAGKhddBSl5+ezofHKZeI+OzxakbIe/Y=" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
 MathJax.Hub.Config({
